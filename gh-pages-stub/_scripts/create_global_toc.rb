@@ -15,7 +15,7 @@
 ##############################################################################
 require 'yaml'
 
-DOCS_ROOT = YAML.load_file("_data/generated_config.yml")["docs_root"]
+#DOCS_ROOT = YAML.load_file("_data/generated_config.yml")["docs_root"]
 
 if not (Array.new).methods.include?(:to_h)
   class Array
@@ -31,13 +31,17 @@ if not (Array.new).methods.include?(:to_h)
 end
 
 class GlobalMenu
-  def initialize
+  def initialize(path)
+    @jekill_root = path
+    @config_data = YAML.load_file("#{path}/_data/generated_config.yml")
+    @docs_root = @config_data["docs_root"]
     @root ||= {}
     @versions ||= {}
     @keys ||= []
-    @keys_kaa = getKeys("#{DOCS_ROOT}",["m","latest"])
+    @keys_kaa = getKeys("#{@docs_root}",["m","latest"])
     @keys.concat @keys_kaa
-    @keys.concat getKeys("#{DOCS_ROOT}/m",["latest"])
+    @keys.concat getKeys("#{@docs_root}/m",["latest"])
+    puts @keys
   end
 
   ##
@@ -48,6 +52,8 @@ class GlobalMenu
       loadDoc(key)
     end
     @root = sortSubitems(@root)
+    puts @root.to_yaml
+    Dir.chdir @jekill_root
     File.open("_data/menu.yml", 'w') { |f| YAML.dump(@root, f) }
     @keys_kaa.each do |key|
       begin
@@ -73,6 +79,7 @@ class GlobalMenu
   ##
   def getKeys(path,exept)
     keys ||= []
+    Dir.chdir @jekill_root
     Dir.glob("#{path}/*") do |doc_dir|
       if File.directory?(doc_dir)
         doc_dir = File.basename(doc_dir)
@@ -100,6 +107,7 @@ class GlobalMenu
   # Load all markdown files and parce yaml headers to extract nav information
   ##
   def loadDoc(key)
+    Dir.chdir @jekill_root
     Dir.glob("#{key}/**/index.md") do |md_file|
       dirname = File.dirname(md_file)
       header = YAML.load(loadHeader(md_file))
@@ -174,6 +182,7 @@ class GlobalMenu
     is_header_mode = 0
     header = ""
     #puts "working on: #{file}..."
+    Dir.chdir @jekill_root
     fileObj = File.new(file, "r")
     while (line = fileObj.gets)
       if line.match("---\n")
@@ -191,5 +200,5 @@ class GlobalMenu
   end
 end
 
-gm = GlobalMenu.new
-gm.process()
+#gm = GlobalMenu.new
+#gm.process()
