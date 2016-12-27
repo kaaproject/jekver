@@ -1,0 +1,24 @@
+project: kaa
+
+java_docs:
+ - java:
+     path: "client/client-multi"
+     cmd: "mvn javadoc:javadoc"
+     docs:
+     
+       client-java-android: "client-java-android/target/site/apidocs"
+       client-java-core: "client-java-core/target/site/apidocs"
+       client-java-desktop: "client-java-desktop/target/site/apidocs"
+       
+ - "C":
+     path: "client/client-multi"
+     cmd: "mkdir -p client-c/target/apidocs && \
+           mvn -P compile-client-c compile"
+     docs:
+       client-c: "client-c/target/apidocs/doxygen"
+ - "C++":
+     path: "client/client-multi"
+     cmd: "mkdir -p client-cpp/target/apidocs && \
+           mvn -P compile-client-cpp compile"
+     docs:
+       client-cpp: "client-cpp/target/apidocs/doxygen"
