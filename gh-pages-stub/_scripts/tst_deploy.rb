@@ -2,8 +2,7 @@
 require 'yaml'
 require 'colorize'
 require 'fileutils'
-#require "./#{File.dirname(__FILE__)}/generate_latest_structure.rb"
-require "./#{File.dirname(__FILE__)}/create_global_toc.rb"
+require "#{File.dirname(__FILE__)}/create_global_toc.rb"
 
 class Version
    def initialize(version,display)
@@ -67,13 +66,13 @@ class Deploy
 
   def collect_docs_from_verion(version)
       tmp_path = "#{@conf["path"]}/tmp/#{version}"
-      `mkdir -p #{tmp_path}`
+      FileUtils.mkdir_p(tmp_path)
       if version == 'current'
           `cp -R #{@conf["path"]}/* #{tmp_path}`
       else        
           `git -C #{@conf["path"]} archive #{version} | tar -x -C #{tmp_path}`
       end
-      `mkdir -p #{@conf["jekyll_root"]}/doc/`
+      FileUtils.mkdir_p("#{@conf["jekyll_root"]}/doc/")
 #      if File.directory?("#{tmp_path}/doc")
 #          dst = "#{@conf["jekyll_root"]}/doc/#{version}"
 #          `rm -rf #{dst}` if File.directory?("#{dst}")
@@ -88,7 +87,7 @@ class Deploy
               end
               value["docs"].each do |k,v|
                   if File.directory?("#{tmp_path}/#{value["path"]}/#{v}")
-		    `mkdir -p "#{@conf["jekyll_root"]}/#{value["target"]}/#{k}/#{version}"`
+                    FileUtils.mkdir_p("#{@conf["jekyll_root"]}/#{value["target"]}/#{k}/#{version}")
                     FileUtils.copy_entry(
                         "#{tmp_path}/#{value["path"]}/#{v}",
                         "#{@conf["jekyll_root"]}/#{value["target"]}/#{k}/#{version}/"
@@ -98,18 +97,16 @@ class Deploy
                     puts "Failed to found generated doc #{tmp_path}/#{value["path"]}/#{v}".red
                   end
               end
-              #puts `cp -v -R  `
           end
       end
   end
 
   def generate_jekyll_data()
-      `mkdir -p #{@conf["jekyll_root"]}/_data`
+      FileUtils.mkdir_p("#{@conf["jekyll_root"]}/_data")
       generated_config = {}
       generated_config["version"] = @conf["latest"]
       generated_config["docs_root"] = "doc"
       File.open("#{@conf["jekyll_root"]}/_data/generated_config.yml", 'w') { |f| YAML.dump(generated_config, f) }
-      #generate_jekyll_data(@conf["jekyll_root"])
   end
 
   def fillDefaults(repo_path)
@@ -134,7 +131,6 @@ class Deploy
             |t| v=t.scan(/v(\d*)\.(\d*)\.(\d*)/)[0].map{|i| i.to_i};
             v[0] < vr[0] || (v[0] == vr[0] && v[1] < vr[1]) || (v[0] == vr[0] && v[1] == vr[1] && v[2] < vr[2]) 
         }
-        
     else
         puts "Missing tag startFromTag using all tags".yellow
     end
@@ -150,9 +146,3 @@ class Deploy
   end
 end
 
-begin
-    dp = Deploy.new(path = ARGV[0])
-rescue => error
-    puts "Error: " + error.message
-    puts error.backtrace
-end
