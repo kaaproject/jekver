@@ -1,0 +1,8 @@
+gem "jekyll-seo-tag"
+gem "jekyll"
+gem "jekyll-paginate"
+gem "jekyll-paginate"
+gem "jekyll-feed"
+gem "jekyll-gist"
+gem "jekyll-paginate"
+gem "jekyll-sass-converter"
