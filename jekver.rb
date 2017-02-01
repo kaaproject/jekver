@@ -8,7 +8,7 @@ begin
   # Parce CLI arguments
   options={}
   OptionParser.new do |opts|
-    opts.banner = "Usage: example.rb [options]"
+    opts.banner = "Usage: example.rb [options] PROJECT_PATH"
     opts.on('-p', '--project PROJECT_NAME', 'Project name') { |v| options["project"] = v }
     opts.on('-r', '--remote REMOTE', 'Set default remote for repository') { |v| options["remote"] = v }
     opts.on('-s', '--start-from TAG','Set minimal tag') { |v| options["startFromTag"] = v }
