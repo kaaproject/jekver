@@ -1,21 +1,22 @@
+
 project: kaa
 startFromTag: "v0.8.1"
 addCurrent: false
 latest: "v0.10.0"
 
-java_docs:
+jekdocs:
  - md:
      path: ""
      target: ""
      cmd: "mvn compile"
-     docs:
-       doc: doc
-       "doc/Programming-guide/Server-REST-APIs/swagger.json": "doc/Programming-guide/Server-REST-APIs/swagger.json"
+     copy:
+       docs: doc
+       "swagger.json": "doc/Programming-guide/Server-REST-APIs/swagger.json"
  - java:
      path: "client/client-multi"
      cmd: "mvn javadoc:javadoc"
      target: "autogen-docs"
-     docs:
+     copy:
        client-java-android : "client-java-android/target/site/apidocs"
        client-java-core: "client-java-core/target/site/apidocs"
        client-java-desktop: "client-java-desktop/target/site/apidocs"
@@ -24,12 +25,12 @@ java_docs:
      cmd: "mkdir -p client-c/target/apidocs && \
            mvn -P compile-client-c compile"
      target: "autogen-docs"
-     docs:
+     copy:
        client-c: "client-c/target/apidocs/doxygen"
  - "C++":
      path: "client/client-multi"
      cmd: "mkdir -p client-cpp/target/apidocs && \
            mvn -P compile-client-cpp compile"
      target: "autogen-docs"
-     docs:
+     copy:
        client-cpp: "client-cpp/target/apidocs/doxygen"
