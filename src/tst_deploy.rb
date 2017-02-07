@@ -12,7 +12,7 @@ class Deploy
       puts "Processing tag #{tag}"
       collect_docs_from_verion(tag)
     end
-    if @conf["addCurrent"] == "true"
+    if @conf["addCurrent"]
       collect_docs_from_verion('current')
     end
     generate_latest_structure(@conf["jekyll_root"])
