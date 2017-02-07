@@ -14,6 +14,7 @@
 ## limitations under the License.
 ##############################################################################
 require 'yaml'
+require 'colorize'
 
 #DOCS_ROOT = YAML.load_file("_data/generated_config.yml")["docs_root"]
 
@@ -30,6 +31,16 @@ if not (Array.new).methods.include?(:to_h)
   end
 end
 
+def prependHeader(file,text)
+  File.open(file, "r") do |orig|
+    File.unlink(file)
+    File.open(file, "w") do |new|
+        new.write text
+        new.write(orig.read())
+    end
+  end
+end
+
 class GlobalMenu
   def initialize(path)
     @jekill_root = path
@@ -41,7 +52,7 @@ class GlobalMenu
     @keys_kaa = getKeys("#{@docs_root}",["m","latest"])
     @keys.concat @keys_kaa
     @keys.concat getKeys("#{@docs_root}/m",["latest"])
-    puts @keys
+    #puts @keys
   end
 
   ##
@@ -196,7 +207,19 @@ class GlobalMenu
       end
     end
     fileObj.close
-    return header
+    if header.empty?()
+      defHeader = "---\n" \
+            "layout: page\n" \
+            "title: #{File.basename(File.dirname(file))}\n" \
+            "permalink: /:path/\n" \
+            "sort_idx: 50\n" \
+            "---\n"
+      puts "Missing header for #{file}".red
+      prependHeader(file,defHeader)
+      return defHeader
+    else
+      return header
+    end
   end
 end
 
