@@ -44,9 +44,12 @@ class Deploy
 
   def collect_docs_from_verion(version)
     tmp_path = "#{@conf["path"]}/tmp/#{version}"
+    if File.directory?(tmp_path)
+      `rm -rf #{tmp_path}`
+    end
     FileUtils.mkdir_p(tmp_path)
     if version == 'current'
-      `cp -R #{@conf["path"]}/* #{tmp_path}`
+      `tar -C #{@conf["path"]} -c --exclude tmp --exclude .git --exclude #{@conf["jekyll_root"]} . | tar -x -C #{tmp_path}`
     else
       `git -C #{@conf["path"]} archive #{version} | tar -x -C #{tmp_path}`
     end
@@ -80,30 +83,35 @@ class Deploy
   end
 
   def generate_jekyll_data()
-    if !File.directory?(@conf["jekyll_root"])
-      if @conf["deploy"]
-        if `git -C #{@conf["path"]} branch --list gh-pages`.empty?()
-          remote = `git -C #{@conf["path"]} remote`.split("\n")
-          remote = remote.select{|r| r == 'origin'}+ remote.reject{|r| r == 'origin'}
-          remote = remote.map{|r| r + "/gh-pages"}
-          remote = remote.detect{|r| `git -C #{@conf["path"]} branch -r --list gh-pages`.empty?() }
-          `git -C #{@conf["path"]} checkout #{remote} -b gh-pages`
-        end
-        `git clone #{@conf["path"]} #{@conf["jekyll_root"]} -b gh-pages`
-        `rm -rf #{@conf["jekyll_root"]}/*`
-      else
-        Dir.mkdir(@conf["jekyll_root"])
-      end
-      `cp -R gh-pages-stub/* #{@conf["jekyll_root"]}`
+    puts "Generate Jekver data".green
+    if File.directory?(@conf["jekyll_root"])
+      `rm -rf #{@conf["jekyll_root"]}`
     end
+    if @conf["deploy"]
+      if `git -C #{@conf["path"]} branch --list gh-pages`.empty?()
+        remote = `git -C #{@conf["path"]} remote`.split("\n")
+        remote = remote.select{|r| r == 'origin'}+ remote.reject{|r| r == 'origin'}
+        remote = remote.map{|r| r + "/gh-pages"}
+        remote = remote.detect{|r| `git -C #{@conf["path"]} branch -r --list gh-pages`.empty?() }
+        `git -C #{@conf["path"]} checkout #{remote} -b gh-pages`
+      end
+      `git clone #{@conf["path"]} #{@conf["jekyll_root"]} -b gh-pages`
+      `rm -rf #{@conf["jekyll_root"]}/*`
+    else
+      FileUtils.mkdir_p(@conf["jekyll_root"])
+    end
+    `cp -R gh-pages-stub/* #{@conf["jekyll_root"]}`
+
     FileUtils.mkdir_p("#{@conf["jekyll_root"]}/_data")
     generated_config = {}
     generated_config["version"] = @conf["latest"]
     generated_config["docs_root"] = "docs"
+    puts "Generate generated_config.yml".green
     File.open("#{@conf["jekyll_root"]}/_data/generated_config.yml", 'w') { |f| YAML.dump(generated_config, f) }
   end
 
   def commit_jekyll_data()
+    puts "Going to commit gh-pages".green
     `git -C #{@conf["jekyll_root"]} add *`
     `git -C #{@conf["jekyll_root"]} commit -m 'Updated gh-pages with jekver'`
   end
