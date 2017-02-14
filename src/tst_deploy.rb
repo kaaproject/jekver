@@ -132,7 +132,7 @@ class Deploy
     else
       puts "Missing tag startFromTag using all tags".yellow
     end
-    @conf["curr_tag"] = `git -C #{@conf["path"]} tag --contains`
+    @conf["curr_tag"] = `git -C #{@conf["path"]} tag --contains`.strip
     @conf["curr_tag"] = "current" \
         if @conf["curr_tag"].empty?
     @conf["jekyll_root"] =  File.absolute_path( \
