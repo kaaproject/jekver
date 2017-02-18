@@ -295,16 +295,48 @@ h1,h2,h3 {
 	background-color: #fff;
 }
 
-.btn-primary,.label-primary,.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus  {
-	background-color:#3B5999;
-    color:#fffffe;
+.btn {
+  padding: 6px 4px;
 }
+
+.btn-primary {
+  color:#666666;
+  background-color:transparent;
+  border: none;
+}
+
+.btn-primary:hover, .btn-primary:active:hover, .btn-primary.active, .btn-primary:active, .btn-primary.active:focus, .btn-primary:focus, .btn-primary.active:hover, #btnShowfeedbackForm, #feedbackSubmit, .feedback-close {
+    color: #fff;
+    background-color: #f7ad41;
+    border: none;
+}
+
 .btn-default {
     color:#666666;
     text-shadow:0 0 1px rgba(0,0,0,.3);
 }
-.form-control {
+.form-control:focus {
+  border-color: #f7ad41;
+  box-shadow: inset 0 1px 1px #f7ad41, 0 0 8px #f7ad41;
+}
 
+.popover {
+  position: fixed;
+  max-width: 300px;
+  text-align: center;
+}
+
+#btnShowfeedbackForm{
+  position: fixed;
+  right: 0px;
+  bottom: 35px;
+  z-index: 1060;
+  transform: rotate(-90deg);
+  transform-origin: right, top;
+  -ms-transform: rotate(-90deg);
+  -ms-transform-origin:right, top;
+  -webkit-transform: rotate(-90deg);
+  -webkit-transform-origin:right, top;
 }
 
 .panel textarea, .well textarea, textarea.form-control
@@ -759,7 +791,7 @@ pre, .nav-tabs>li>a {
 	box-shadow: none;
 	margin-top: -2px;
 }
-.search #version-select {
+.search #version-select,#search-version-select{
 	position: relative;
     height: 34px;
     background: #f2f2f2;
@@ -769,8 +801,8 @@ pre, .nav-tabs>li>a {
     padding-left: 12px;
 	padding-right: 30px;
 	appearance:none;
-    -moz-appearance:none; /* Firefox */
-    -webkit-appearance:none; /* Safari and Chrome */
+  -moz-appearance:none; /* Firefox */
+  -webkit-appearance:none; /* Safari and Chrome */
 	background: url('{{ site.baseurl }}/public/drop-down.png') no-repeat right #f2f2f2;
 }
 .search #version-select:before {
@@ -2329,7 +2361,7 @@ pre, .signature-nav>li>a {
   font-size: 1.5em;
   font-weight: bold;
   text-decoration: none;
-  background: transparent url('{{ site.baseurl }}/images/rest-api/logo_small.png) no-repeat left center;
+  background: transparent url('{{ site.baseurl }}/images/rest-api/logo_small.png') no-repeat left center;
   padding: 20px 0 20px 40px;
   color: white;
 }
@@ -2421,4 +2453,5 @@ pre, .signature-nav>li>a {
 	font-size: 16px;
 }
 /* custom end */
+
 /* rest api */

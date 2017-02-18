@@ -4,7 +4,7 @@
   {% include head.html %}
 
   <body>
-  <div class="row row-full row-offcanvas row-offcanvas-left">   
+  <div class="row row-full row-offcanvas row-offcanvas-left">
     {% include sidebar.html %}
     <div class="column col-sm-10 col-xs-11" id="main">
       <div id="split-bar">
@@ -19,10 +19,16 @@
                 {% capture test_version %}{% include test.md %}{% endcapture %}
                 {{ test_version | markdownify }}
             {% endif %}
-            {{ content }}  
-          </div>        
-        </div>   
- 	    </div> 
+            {{ content }}
+            {% if site.data.permanent_config.include_feedback %}
+              {% if page.no_feedback %}
+              {% else %}
+                {% include feedback.html %}
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+ 	    </div>
       {% include footer.html %}
     </div>
   </body>

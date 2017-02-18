@@ -60,12 +60,21 @@ var UTILS = (function () {
 		return "";
 	}
 
+	my.getPathname = function getPathname() {
+		return window.location.pathname;
+	}
+
 	my.getLatestVersion = function getLatestVersion() {
 		return DOM.getInstance().getDataParam(SCRIPT_ID, DATA_LATEST_VERSION);
 	}
 
 	my.getVersionsArray = function getVersionsArray() {
 		return DOM.getInstance().getDataParam(SCRIPT_ID, DATA_VERSIONS_LIST).split(" ");
+	}
+
+	my.validateEmail = function validateEmail(email) {
+		var re = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+		return re.test(email);
 	}
 
 	return my;
