@@ -1,0 +1,35 @@
+<script src="{{ site.baseurl }}/public/js/js.cookie.js"></script>
+<script src="{{ site.baseurl }}/public/js/feedback.js"></script>
+<div id="feedbackFormContainer" class="feedback-form-container">
+    <button class="btn btn-primary" data-toggle="popover" id="btnShowfeedbackForm" data-placement="left"
+     title="We would like to here your thoughts on this page !"
+     data-content='  <div class="feedback-ask" id="feedbackAsk">
+         <div class="btn-group btn-group-justified feedback-type" data-toggle="buttons">
+           <label class="btn btn-primary active">
+             <input type="radio" name="feedback-options" id="Compliment" autocomplete="off" checked>Compliment </input>
+           </label>
+           <label class="btn btn-primary">
+             <input type="radio" name="feedback-options" id="Suggestion" autocomplete="off">Suggestion</input>
+           </label>
+           <label class="btn btn-primary">
+             <input type="radio" name="feedback-options" id="Problem" autocomplete="off">Problem</input>
+           </label>
+         </div>
+         <div class="form-group">
+           <input type="email" class="form-control" id="feedbackEmail1" aria-describedby="emailHelp" maxlength="40" placeholder="*Enter email (Optional)">
+           <small id="emailHelp" class="form-text text-muted">We&#39;ll never share your email with anyone else</small>
+         </div>
+         <div class="form-group">
+           <textarea class="form-control" id="feedbackTextarea" rows="3" placeholder="Description" maxlength="320"></textarea>
+         </div>
+         <button type="submit" class="btn btn-primary" id="feedbackSubmit">Submit</button>
+         <button type="submit" class="btn btn-primary feedback-close" id="feedbackCloseAsk">Close</button>
+       </div>
+       <div class="feedback-result" id="feedbackResult" hidden>
+         <h2>Thank you for your feedback!</h2>
+         <button type="submit" class="btn btn-primary feedback-close" id="feedbackCloseResult">Close</button>
+       </div>'
+       >
+      Feedback
+    </button>
+</div>
