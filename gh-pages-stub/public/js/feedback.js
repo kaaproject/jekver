@@ -23,6 +23,7 @@ FEEDBACK_EMAIL_SELECTOR='#feedbackEmail1';
 FEEDBACK_TEXT_SELECTOR='#feedbackTextarea';
 FEEDBACK_BTN_SELECTOR='#btnShowfeedbackForm';
 SCROLL_ELEMENT_SELECTOR="div#main"
+FEEDBACK_TIMEOUT_POPUP=5*60*1000;
 
 $(document).ready(function(){
 
@@ -35,6 +36,13 @@ $(document).ready(function(){
 
   /* Check the cookies . If there is no feedback for this page */
   if (!Cookies.get(getCookieSelector())) {
+
+    /*Timeout feedback */
+    window.setTimeout(function() {
+      /* Open feedbakc form when user scrolls to the bottom */
+        $(FEEDBACK_BTN_SELECTOR).trigger('click');
+    }, FEEDBACK_TIMEOUT_POPUP);
+
     $(SCROLL_ELEMENT_SELECTOR).scroll(function() {
       /* Open feedbakc form when user scrolls to the bottom */
       if($(SCROLL_ELEMENT_SELECTOR).scrollTop() >= $(SCROLL_ELEMENT_SELECTOR)[0].scrollHeight -  $(window).height()) {
