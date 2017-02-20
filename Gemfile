@@ -1,8 +1,8 @@
-gem "jekyll-seo-tag"
+source 'https://rubygems.org'
+gem "colorize"
 gem "jekyll"
-gem "jekyll-paginate"
+gem "jekyll-seo-tag"
 gem "jekyll-paginate"
 gem "jekyll-feed"
 gem "jekyll-gist"
-gem "jekyll-paginate"
 gem "jekyll-sass-converter"
