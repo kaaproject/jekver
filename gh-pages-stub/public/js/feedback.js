@@ -24,20 +24,54 @@ FEEDBACK_TEXT_SELECTOR='#feedbackTextarea';
 FEEDBACK_BTN_SELECTOR='#btnShowfeedbackForm';
 SCROLL_ELEMENT_SELECTOR="div#main"
 FEEDBACK_TIMEOUT_POPUP=5*60*1000;
+FEEDBACK_FORM_SELECTOR='#feedbackForm'
+FORM_GROUP_SELECTOR='.form-group'
+HAS_ERROR='has-error'
+
+function getCookieSelector() {
+  return COOKIES_SELECTOR_PREFIX + UTILS.getPathname();
+}
+
+function feedbackFromLoaded() {
+
+  /*Setup validator*/
+  $(FEEDBACK_FORM_SELECTOR).validator("update");
+
+  /* Setup submit callback */
+  $(FEEDBACK_FORM_SELECTOR).validator().on('submit', function (e) {
+    if (e.isDefaultPrevented()) {
+      // handle the invalid form...
+    } else {
+      /* Check cache and show feedback field if necessary */
+      var TITLE=document.title;
+      var VERSION = UTILS.getVersionFromURL();
+      var FEEDBACK_TYPE = $(ACTIVE_FEEDBACK_TYPE_SELECTOR)[0].id;
+      var FEEDBACK_EMAIL = $(FEEDBACK_EMAIL_SELECTOR)[0].value;
+      var FEEDBACK_TEXT = $(FEEDBACK_TEXT_SELECTOR)[0].value;
+
+      Analytic.getInstance().sendFeedback(FEEDBACK_TYPE,VERSION,TITLE,FEEDBACK_EMAIL,FEEDBACK_TEXT);
+      Cookies.set(getCookieSelector(), true,  { path: UTILS.getPathname() });
+      $(FEEDBACK_INPUT_FORM_SELECTOR).hide(FEEDBACK_ANIMATION_TIME);
+      $(FEEDBACK_RESULT_SELECTOR).show(FEEDBACK_ANIMATION_TIME);
+    }
+    return false;
+  })
+}
 
 $(document).ready(function(){
-
-  function getCookieSelector() {
-    return COOKIES_SELECTOR_PREFIX + UTILS.getPathname();
-  }
 
   /* Enable popovers with html */
   $("[data-toggle=popover]").popover({html : true});
 
+  /* Setup popover close button functionality */
+  $(document).on("click", ".popover .feedback-close" , function(){
+      $(this).parents(".popover").prev().trigger('click');
+  });
+
   /* Check the cookies . If there is no feedback for this page */
   if (!Cookies.get(getCookieSelector())) {
 
-    /*Timeout feedback */
+    /* Setup Timeout feedback */
     window.setTimeout(function() {
       /* Open feedbakc form when user scrolls to the bottom */
         $(FEEDBACK_BTN_SELECTOR).trigger('click');
@@ -52,23 +86,4 @@ $(document).ready(function(){
       }
     });
   }
-
-  /* Setup popover close button functionality */
-  $(document).on("click", ".popover .feedback-close" , function(){
-      $(this).parents(".popover").prev().trigger('click');
-  });
-
-  $(document).on("click", FEEDBACK_SUBMIT_BUTTON_SELECTOR , function(){
-    /* Check cache and show feedback field if necessary */
-    var TITLE=document.title;
-    var VERSION = UTILS.getVersionFromURL();
-    var FEEDBACK_TYPE = $(ACTIVE_FEEDBACK_TYPE_SELECTOR)[0].id;
-    var FEEDBACK_EMAIL = $(FEEDBACK_EMAIL_SELECTOR)[0].value;
-    var FEEDBACK_TEXT = $(FEEDBACK_TEXT_SELECTOR)[0].value;
-
-    Analytic.getInstance().sendFeedback(FEEDBACK_TYPE,VERSION,TITLE,FEEDBACK_EMAIL,FEEDBACK_TEXT);
-    Cookies.set(getCookieSelector(), true,  { path: UTILS.getPathname() });
-    $(FEEDBACK_INPUT_FORM_SELECTOR).hide(FEEDBACK_ANIMATION_TIME);
-    $(FEEDBACK_RESULT_SELECTOR).show(FEEDBACK_ANIMATION_TIME);
-  })
 })
