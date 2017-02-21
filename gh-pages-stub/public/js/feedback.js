@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-FEEDBACK_SUBMIT_BUTTON_SELECTOR="#feedbackSubmit";
 FEEDBACK_RESULT_SELECTOR="#feedbackResult";
 FEEDBACK_INPUT_FORM_SELECTOR='#feedbackAsk';
 FEEDBACK_ANIMATION_TIME=500;
@@ -25,8 +24,7 @@ FEEDBACK_BTN_SELECTOR='#btnShowfeedbackForm';
 SCROLL_ELEMENT_SELECTOR="div#main"
 FEEDBACK_TIMEOUT_POPUP=5*60*1000;
 FEEDBACK_FORM_SELECTOR='#feedbackForm'
-FORM_GROUP_SELECTOR='.form-group'
-HAS_ERROR='has-error'
+FEEDBACK_POST_URL_SELECTOR='#feedbackPostUrl'
 
 function getCookieSelector() {
   return COOKIES_SELECTOR_PREFIX + UTILS.getPathname();
@@ -49,10 +47,24 @@ function feedbackFromLoaded() {
       var FEEDBACK_EMAIL = $(FEEDBACK_EMAIL_SELECTOR)[0].value;
       var FEEDBACK_TEXT = $(FEEDBACK_TEXT_SELECTOR)[0].value;
 
+      /* Send feedback to google analytics */
       Analytic.getInstance().sendFeedback(FEEDBACK_TYPE,VERSION,TITLE,FEEDBACK_EMAIL,FEEDBACK_TEXT);
       Cookies.set(getCookieSelector(), true,  { path: UTILS.getPathname() });
       $(FEEDBACK_INPUT_FORM_SELECTOR).hide(FEEDBACK_ANIMATION_TIME);
       $(FEEDBACK_RESULT_SELECTOR).show(FEEDBACK_ANIMATION_TIME);
+
+      /* Post feedback somewhere */
+      var ACTION_URL = $(FEEDBACK_POST_URL_SELECTOR)[0].value;
+      if (!UTILS.isBlank(ACTION_URL)) {
+        $.post(ACTION_URL,
+                {
+                  "email": FEEDBACK_EMAIL,
+                  "doc_page": TITLE,
+                  "doc_version": VERSION,
+                  "feedback": FEEDBACK_TEXT,
+                  "lead_source_description": 'Documentation'
+                });
+      }
     }
     return false;
   })

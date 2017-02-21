@@ -17,6 +17,7 @@
            </label>
          </div>
          <form data-toggle="validator" role="form" id="feedbackForm">
+           <input type="hidden" id="feedbackPostUrl" value="{{ site.data.permanent_config.feedback_post_url }}">
            <div class="form-group">
              <input type="email" class="form-control" id="feedbackEmail1" aria-describedby="emailHelp" maxlength="40" placeholder="Enter email"
              data-error="This email address is invalid" required">
