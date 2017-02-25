@@ -23,9 +23,9 @@ var Analytic = (function () {
       ga('send', 'event', 'User Search', 'Search', searchTerm);
     }
 
-    function sendFeedback(feedbackType,kaa_version,page,email,feedback) {
-      var fullFeedback = "Version:" + kaa_version +"\nPage:" + page + "\nemail:" +
-                      email + "\nFeedback:" + feedback;
+    function sendFeedback(feedbackType, kaa_version, page, name, email, feedback) {
+      var fullFeedback = "Version:" + kaa_version +"\nPage:" + page + "\nname:" +
+                          name +  "\nemail:" + email + "\nFeedback:" + feedback;
 
       ga('send', {
         hitType: 'event',

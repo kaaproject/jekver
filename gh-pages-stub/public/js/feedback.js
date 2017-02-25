@@ -20,6 +20,7 @@ COOKIES_SELECTOR_PREFIX='jekver-feedback-';
 ACTIVE_FEEDBACK_TYPE_SELECTOR='#feedbackAsk .btn.btn-primary.active > input';
 FEEDBACK_EMAIL_SELECTOR='#feedbackEmail1';
 FEEDBACK_TEXT_SELECTOR='#feedbackTextarea';
+FEEDBACK_NAME_SELECTOR='#feedbackName'
 FEEDBACK_BTN_SELECTOR='#btnShowfeedbackForm';
 SCROLL_ELEMENT_SELECTOR="div#main"
 FEEDBACK_TIMEOUT_POPUP=5*60*1000;
@@ -46,9 +47,10 @@ function feedbackFromLoaded() {
       var FEEDBACK_TYPE = $(ACTIVE_FEEDBACK_TYPE_SELECTOR)[0].id;
       var FEEDBACK_EMAIL = $(FEEDBACK_EMAIL_SELECTOR)[0].value;
       var FEEDBACK_TEXT = $(FEEDBACK_TEXT_SELECTOR)[0].value;
+      var FEEDBACK_NAME = $(FEEDBACK_NAME_SELECTOR)[0].value;
 
       /* Send feedback to google analytics */
-      Analytic.getInstance().sendFeedback(FEEDBACK_TYPE,VERSION,TITLE,FEEDBACK_EMAIL,FEEDBACK_TEXT);
+      Analytic.getInstance().sendFeedback(FEEDBACK_TYPE,VERSION,TITLE, FEEDBACK_NAME, FEEDBACK_EMAIL,FEEDBACK_TEXT);
       Cookies.set(getCookieSelector(), true,  { path: UTILS.getPathname() });
       $(FEEDBACK_INPUT_FORM_SELECTOR).hide(FEEDBACK_ANIMATION_TIME);
       $(FEEDBACK_RESULT_SELECTOR).show(FEEDBACK_ANIMATION_TIME);
@@ -59,6 +61,7 @@ function feedbackFromLoaded() {
         $.post(ACTION_URL,
                 {
                   "email": FEEDBACK_EMAIL,
+                  "name": FEEDBACK_NAME,
                   "doc_page": TITLE,
                   "doc_version": VERSION,
                   "feedback": FEEDBACK_TEXT,
