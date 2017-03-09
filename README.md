@@ -24,3 +24,37 @@ CLI overwrite configuraton loaded from config file so if option defined in confi
 |jekdocs[n].key.path|String|"path_to_mvm_proj"|Base path from cmd should be executed|
 |jekdocs[n].key.target|String|""|Target folder for documentation in gh-pages|
 |jekdocs[n].key.copy|Map|dst:src|Coping rules in format destination source #{version}/#{path}/#{src}/ -> #{key}/#{target}/#{dst}/#{version}|
+
+## Basic usage
+
+1. Clone [Jekver repository](https://github.com/kaaproject/jekver) to the directory that contains your project repository with documentation.
+
+2. In the cloned Jekver repository, open the `gh-pages-stub/_config.yml` file, specify `title` and `baseurl` parameter values for your project.
+
+3. Create a Jekver configuration file `jekver.yml` in the root of your project repository with documentation.
+For the `docs` parameter, specify the name of the directory that contains your documentation.
+If that directory is not in the project root, specify the full path from project root.
+See example below.
+
+   ```
+   project: MyProject
+   latest: "current"
+   
+   jekdocs:
+    - md:
+        path: ""
+        target: ""
+        copy:
+          docs: doc
+   ```
+
+4. From the root of your cloned Jekver repository, run:
+
+   ```
+   ./jekver.rb -c <root path of your project repository>
+   ```
+
+   This will generate documentation structure and create two sub-directories in the root of your project repository: `test-MyProject-pages-current` and `tmp`.
+
+5. From the `test-MyProject-pages-current` directory, run `jekyll serve`.
+This will generate the documentation and serve it at `http://localhost:4000/<baseurl>/`.
