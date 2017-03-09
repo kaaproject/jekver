@@ -75,7 +75,7 @@ class Deploy
             )
           elsif File.exist?("#{tmp_path}/#{value["path"]}/#{v}")
           else
-            puts "Failed to found generated doc #{tmp_path}/#{value["path"]}/#{v}".red
+            puts "Failed to find generated doc #{tmp_path}/#{value["path"]}/#{v}".red
           end
         end
       end
