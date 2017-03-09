@@ -18,7 +18,7 @@ begin
   end.parse!
   puts options
   if ARGV.empty?() or !File.directory?(ARGV[0]) or !File.directory?("#{ARGV[0]}/.git")
-    puts "Brocken or missing target project path"
+    puts "Broken or missing target project path"
   else
     confFile = "#{ARGV[0]}/.jekver.yml"
     if File.file?(confFile)
