@@ -18,16 +18,15 @@ begin
   end.parse!
   puts options
   if ARGV.empty?() or !File.directory?(ARGV[0]) or !File.directory?("#{ARGV[0]}/.git")
-    puts "Broken or missing target project path"
+    puts "Broken or missing target project path".red
   else
-    confFile = "#{ARGV[0]}/.jekver.yml"
+    confFile = "#{ARGV[0]}/.jekver/conf.yml"
     if File.file?(confFile)
       puts "Loading configuration from #{confFile}".green
       conf = YAML.load_file(confFile)
     else
-      puts "Missing conf file #{confFile} using empty defaults".yellow
-      confFile = ".jekver.yml" # TODO use pat relative from script
-      conf = {}
+      puts "Missing conf file #{confFile}".red
+      return
     end
     options.each {|k,v| conf[k]=v}
     conf["path"] = File.absolute_path(ARGV[0])

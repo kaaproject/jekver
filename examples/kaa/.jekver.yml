@@ -1,35 +1,41 @@
 project: kaa
-startFromTag: "v0.8.1"
+startFromTag: "v0.10.0"
 addCurrent: false
 latest: "v0.10.0"
 
-java_docs:
+jekdocs:
  - md:
      path: ""
      target: ""
      cmd: "mvn compile"
-     docs:
-       doc: doc
-       "doc/Programming-guide/Server-REST-APIs/swagger.json": "doc/Programming-guide/Server-REST-APIs/swagger.json"
+     copy:
+       - dst: docs
+         src: doc
+       - src: "doc/Programming-guide/Server-REST-APIs/swagger.json"
  - java:
      path: "client/client-multi"
      cmd: "mvn javadoc:javadoc"
      target: "autogen-docs"
-     docs:
-       client-java-android : "client-java-android/target/site/apidocs"
-       client-java-core: "client-java-core/target/site/apidocs"
-       client-java-desktop: "client-java-desktop/target/site/apidocs"
+     copy:
+       - dst: client-java-android
+         src: "client-java-android/target/site/apidocs"
+       - dst: client-java-core
+         src: "client-java-core/target/site/apidocs"
+       - dst: client-java-desktop
+         src: "client-java-desktop/target/site/apidocs"
  - "C":
      path: "client/client-multi"
      cmd: "mkdir -p client-c/target/apidocs && \
            mvn -P compile-client-c compile"
      target: "autogen-docs"
-     docs:
-       client-c: "client-c/target/apidocs/doxygen"
+     copy:
+       - dst: client-c
+         src: "client-c/target/apidocs/doxygen"
  - "C++":
      path: "client/client-multi"
      cmd: "mkdir -p client-cpp/target/apidocs && \
            mvn -P compile-client-cpp compile"
      target: "autogen-docs"
-     docs:
-       client-cpp: "client-cpp/target/apidocs/doxygen"
+     copy:
+       - dst: client-cpp
+         src: "client-cpp/target/apidocs/doxygen"

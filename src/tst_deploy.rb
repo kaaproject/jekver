@@ -42,41 +42,60 @@ class Deploy
     end
   end
 
+  def copy_doc_cp(src,dst)
+    puts "mkdir  #{dst}"
+    if File.exists?(src) || File.directory?(src)
+      FileUtils.mkdir_p(dst)
+      FileUtils.copy_entry(src,dst)
+    else
+      puts "Failed to find generated doc #{src}".red
+    end
+  end
+
+  def copy_doc_ln(src,dst)
+    puts "Going to create sym link for #{dst}"
+    if File.exists?(src) || File.directory?(src)
+      #FileUtils.mkdir_p(File.dirname(dst))
+      File.symlink src,dst
+    else
+      puts "Failed to find generated doc #{src}".red
+    end
+  end
+
   def collect_docs_from_verion(version)
     tmp_path = "#{@conf["path"]}/tmp/#{version}"
     if File.directory?(tmp_path)
       `rm -rf #{tmp_path}`
     end
     FileUtils.mkdir_p(tmp_path)
+    copy_doc = lambda {|src,dst| copy_doc_cp(src,dst)}
     if version == 'current'
-      `tar -C #{@conf["path"]} -c --exclude tmp --exclude .git --exclude #{@conf["jekyll_root"]} . | tar -x -C #{tmp_path}`
+      copy_doc = lambda {|src,dst| copy_doc_ln(src,dst)}
+      tmp_path = "#{@conf["path"]}"
+      #`tar -C #{@conf["path"]} -c --exclude tmp --exclude .git --exclude #{@conf["jekyll_root"]} . | tar -x -C #{tmp_path}`
     else
       `git -C #{@conf["path"]} archive #{version} | tar -x -C #{tmp_path}`
     end
-#     FileUtils.mkdir_p("#{@conf["jekyll_root"]}/doc/")
-#      if File.directory?("#{tmp_path}/doc")
-#          dst = "#{@conf["jekyll_root"]}/doc/#{version}"
-#          `rm -rf #{dst}` if File.directory?("#{dst}")
-#          `ln -s #{tmp_path}/doc #{dst}`
-#      end
     @conf["jekdocs"].each do |docs|
       docs.each do |key,value|
         puts key,value
-        folders = value["copy"].values.collect {|file| "#{tmp_path}/#{value["path"]}/#{file}" }
-        if (!(folders.all? {|file| File.directory?(file)}))
-          `cd #{tmp_path}/#{value["path"]} && #{value["cmd"]}`
-        end
-        value["copy"].each do |k,v|
-          if File.directory?("#{tmp_path}/#{value["path"]}/#{v}")
-            FileUtils.mkdir_p("#{@conf["jekyll_root"]}/#{value["target"]}/#{k}/#{version}")
-            FileUtils.copy_entry(
-                "#{tmp_path}/#{value["path"]}/#{v}",
-                "#{@conf["jekyll_root"]}/#{value["target"]}/#{k}/#{version}/"
-            )
-          elsif File.exist?("#{tmp_path}/#{value["path"]}/#{v}")
+        folders = value["copy"]
+            .select {|item|  item.has_key?("src")}
+            .collect {|item| "#{tmp_path}/#{value["path"]}/#{item["src"]}" }
+        if !(folders.all? {|file| File.directory?(file)})
+          if File.directory?("#{tmp_path}/#{value["path"]}")
+            `cd #{tmp_path}/#{value["path"]} && #{value["cmd"]}`
           else
-            puts "Failed to find generated doc #{tmp_path}/#{value["path"]}/#{v}".red
+            puts "Failed to found path #{tmp_path}/#{value["path"]} to build docs".red
           end
+        end
+        value["copy"]
+            .select {|item|  item.has_key?("src") and item.has_key?("dst")}
+            .each do |item|
+          copy_doc.call(
+              "#{tmp_path}/#{value["path"]}/#{item["src"]}",
+              "#{@conf["jekyll_root"]}/#{value["target"]}/#{item["dst"]}/#{version}"
+          )
         end
       end
     end
@@ -100,7 +119,7 @@ class Deploy
     else
       FileUtils.mkdir_p(@conf["jekyll_root"])
     end
-    `cp -R gh-pages-stub/* #{@conf["jekyll_root"]}`
+    `cp -R #{@conf["jek_path"]}/gh-pages-stub/* #{@conf["jekyll_root"]}`
 
     FileUtils.mkdir_p("#{@conf["jekyll_root"]}/_data")
     generated_config = {}
@@ -108,6 +127,10 @@ class Deploy
     generated_config["docs_root"] = "docs"
     puts "Generate generated_config.yml".green
     File.open("#{@conf["jekyll_root"]}/_data/generated_config.yml", 'w') { |f| YAML.dump(generated_config, f) }
+    @conf["jekconf"].each { |e| e["src"] = "#{@conf["path"]}/.jekver/#{e["src"]}" }
+    @conf["jekconf"].each { |e| e["dst"] = "#{@conf["jekyll_root"]}/#{e["dst"]}" }
+    @conf["jekconf"].select { |e| File.exists?(e["src"])}.each { |e|FileUtils.cp(e["src"],e["dst"]) }
+    #@conf["jekconf"].select { |e| File.directory?(e["src"])}.each { |e|FileUtils.cp_r(e["src"],e["dst"]) }  
   end
 
   def commit_jekyll_data()
@@ -121,6 +144,7 @@ class Deploy
     if !@conf.has_key?("project")
       @conf["project"] = "default"
     end
+    @conf["jek_path"] = "#{File.dirname(__FILE__)}/.."
     @conf["tags"] = `git -C #{@conf["path"]} tag`.split(/\n/).select{ |i| i[/v[0-9]+\.[0-9]+\.[0-9]+/] }
     #@conf["tags"] = @conf["tags"].sort_by{|t| tmp = t.split(/v|\./); tmp[1]*1000*1000+tmp[2]*1000+tmp[3]}
     if @conf.has_key?("startFromTag")
