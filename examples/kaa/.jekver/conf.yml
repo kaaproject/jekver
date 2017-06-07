@@ -3,6 +3,10 @@ startFromTag: "v0.10.0"
 addCurrent: false
 latest: "v0.10.0"
 
+jekconf:
+ - src: "permanent_config.yml"
+   dst: "_data/permanent_config.yml"
+
 jekdocs:
  - md:
      path: ""
