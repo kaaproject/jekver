@@ -185,6 +185,25 @@ var COLLAPSING_CODE_BLOCS = (function () {
   };
 }());
 
+$(document).ready(function(){
+  $('.collapser > :first-child').click(function() {
+    var wrapper = $(this).parent();
+    var children = wrapper.children();
+
+    for (var i = 1; i < children.length; i++) {
+      var element = children[i];
+
+      if (wrapper.hasClass('opened')) {
+        element.style.maxHeight = 0;
+      } else {
+        element.style.maxHeight = element.scrollHeight + 'px';
+      }
+    }
+
+    wrapper.toggleClass('opened');
+  });
+});
+
 $(document).ready(function(){/* off-canvas sidebar toggle */
   $(document).on('mousedown', function() {
     var scrollPosition = $('#lg-menu .sidebar-navigation-container').scrollTop();

@@ -898,6 +898,36 @@ li.menu-opened + ul{
   margin-left: -16px;
 }
 
+.collapser {
+  border-bottom: 2px solid #f7ad41;
+}
+
+.collapser > :first-child {
+  cursor: pointer;
+}
+
+.collapser > :first-child:after {
+  content: '+';
+  margin-left: 5px;
+  color: #f7ad41;
+}
+
+.collapser.opened > :first-child:after {
+  content: '-';
+  margin-left: 9px;
+  color: #f7ad41;
+}
+
+.collapser > :nth-child(n+2) {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s linear;
+}
+
+div[class=collapser] > :nth-child(n+2) {
+  margin: 0;
+}
+
 .car-field:hover .caret{
 	transform: rotate(90deg) translate(2px, 2px);
 	transition: transform 0.25s linear;
