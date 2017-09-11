@@ -2485,3 +2485,15 @@ pre, .signature-nav>li>a {
 /* custom end */
 
 /* rest api */
+
+.content p {
+  overflow: hidden;
+}
+
+.content p img {
+  float: right;
+  margin: 0 0 0 15px;
+  max-width: 200px;
+  width: 100%;
+  height: auto;
+}
