@@ -32,4 +32,4 @@ kramdown:
   enable_coderay: false
   entity_output:  as_char
   hard_wrap: false
-  syntax_highlighter: none
+  syntax_highlighter: rouge
