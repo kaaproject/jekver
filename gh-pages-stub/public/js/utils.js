@@ -49,7 +49,7 @@ var UTILS = (function () {
 	}
 
 	my.splitByLines = function splitByLines(text) {
-		return text.match(/[^\r\n]+/g);
+		return text.split("\n");
 	}
 
 	my.getVersionFromURL = function getVersionFromURL() {
