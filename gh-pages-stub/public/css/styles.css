@@ -1036,14 +1036,20 @@ table p {
 /* custom end */
 /* rest api */
 
-.content p {
-  overflow: hidden;
+.content .push-right {
+  float: right;
+  margin: 0 0 10px 10px;
 }
 
-.content p img {
-  float: right;
-  margin: 0 0 0 15px;
-  max-width: 200px;
-  width: 100%;
-  height: auto;
+.content .push-left {
+  float: left;
+  margin: 0 10px 10px 0;
+}
+
+.middle-width {
+  max-width: 600px;
+}
+
+.small-width {
+  max-width: 300px;
 }
