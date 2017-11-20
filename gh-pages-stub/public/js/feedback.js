@@ -16,19 +16,19 @@
 FEEDBACK_RESULT_SELECTOR="#feedbackResult";
 FEEDBACK_INPUT_FORM_SELECTOR='#feedbackAsk';
 FEEDBACK_ANIMATION_TIME=500;
-COOKIES_SELECTOR_PREFIX='jekver-feedback-';
+COOKIES_SELECTOR='jekver-feedback';
 ACTIVE_FEEDBACK_TYPE_SELECTOR='#feedbackAsk .btn.btn-primary.active > input';
 FEEDBACK_EMAIL_SELECTOR='#feedbackEmail1';
 FEEDBACK_TEXT_SELECTOR='#feedbackTextarea';
 FEEDBACK_NAME_SELECTOR='#feedbackName'
 FEEDBACK_BTN_SELECTOR='#btnShowfeedbackForm';
 SCROLL_ELEMENT_SELECTOR="div#main"
-FEEDBACK_TIMEOUT_POPUP=5*60*1000;
+FEEDBACK_TIMEOUT_POPUP=10*1000;
 FEEDBACK_FORM_SELECTOR='#feedbackForm'
 FEEDBACK_POST_URL_SELECTOR='#feedbackPostUrl'
 
-function getCookieSelector() {
-  return COOKIES_SELECTOR_PREFIX + UTILS.getPathname();
+function setFeedbackCookie() {
+  Cookies.set(COOKIES_SELECTOR, true,  { path: '/' });
 }
 
 function feedbackFromLoaded() {
@@ -51,7 +51,7 @@ function feedbackFromLoaded() {
 
       /* Send feedback to google analytics */
       Analytic.getInstance().sendFeedback(FEEDBACK_TYPE,VERSION,TITLE, FEEDBACK_NAME, FEEDBACK_EMAIL,FEEDBACK_TEXT);
-      Cookies.set(getCookieSelector(), true,  { path: UTILS.getPathname() });
+      setFeedbackCookie();
       $(FEEDBACK_INPUT_FORM_SELECTOR).hide(FEEDBACK_ANIMATION_TIME);
       $(FEEDBACK_RESULT_SELECTOR).show(FEEDBACK_ANIMATION_TIME);
 
@@ -84,21 +84,13 @@ $(document).ready(function(){
   });
 
   /* Check the cookies . If there is no feedback for this page */
-  if (!Cookies.get(getCookieSelector())) {
+  if (!Cookies.get(COOKIES_SELECTOR)) {
 
     /* Setup Timeout feedback */
     window.setTimeout(function() {
-      /* Open feedbakc form when user scrolls to the bottom */
         $(FEEDBACK_BTN_SELECTOR).trigger('click');
-    }, FEEDBACK_TIMEOUT_POPUP);
 
-    $(SCROLL_ELEMENT_SELECTOR).scroll(function() {
-      /* Open feedbakc form when user scrolls to the bottom */
-      if($(SCROLL_ELEMENT_SELECTOR).scrollTop() >= $(SCROLL_ELEMENT_SELECTOR)[0].scrollHeight -  $(window).height()) {
-        $(FEEDBACK_BTN_SELECTOR).trigger('click');
-        /* unregister event */
-        $(this).unbind("scroll");
-      }
-    });
+        setFeedbackCookie();
+    }, FEEDBACK_TIMEOUT_POPUP);
   }
 })
