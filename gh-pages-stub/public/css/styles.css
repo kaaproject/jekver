@@ -145,7 +145,15 @@ hr {
 
 #sidebar {
   padding: 0px;
-  overflow: hidden;
+}
+
+#sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+  background: gray;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
 }
 
 #split-bar {
@@ -237,24 +245,6 @@ hr {
 
 #sidebar .nav > .sidebar-header {
   color: #f7ad41;
-}
-
-#sidebar .sidebar-navigation-container {
-  overflow: auto;
-  position: absolute;
-  top: 287px; /* 139(kaa logo height) + 148(title+version height) */
-  left: 0;
-  bottom: 0;
-  right: 0;
-}
-
-#sidebar .sidebar-navigation-container::-webkit-scrollbar {
-  width: 8px;
-}
-
-#sidebar .sidebar-navigation-container::-webkit-scrollbar-thumb {
-  background: gray;
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
 }
 
 .logo {
