@@ -24,23 +24,20 @@
     <li class="dropdown text-center sidebar-header">
       {% include versions.html nav=site.data.versions %}
     </li>
-    <li>
-      <ul class="nav">
-        {% if page.generate_nav_for_all_versions %}
-          {% for item in site.data.menu %}
-            {% assign key = item[0] %}
-            {% assign navtree = site.data.menu[key].subitems %}
-            <li class="test sidebar-navigation-container nav" id="sidbar-nav-version-{{site.data.versions[key].version}}" style="display: none;">
-              {% include nav.html nav=navtree lvl=0 %}
-            </li>
-          {% endfor %}
-        {% else %}
-        <li class="test1 sidebar-navigation-container nav">
+    
+    {% if page.generate_nav_for_all_versions %}
+      {% for item in site.data.menu %}
+        {% assign key = item[0] %}
+        {% assign navtree = site.data.menu[key].subitems %}
+        <div class="sidebar-navigation-container nav" id="sidbar-nav-version-{{site.data.versions[key].version}}" style="display: none;">
           {% include nav.html nav=navtree lvl=0 %}
-        </li>
-        {% endif %}
-      </ul>
-    </li>
+        </div>
+      {% endfor %}
+    {% else %}
+    <div class="sidebar-navigation-container nav">
+      {% include nav.html nav=navtree lvl=0 %}
+    </div>
+    {% endif %}
   </ul>
 
   <!-- tiny only nav-->
