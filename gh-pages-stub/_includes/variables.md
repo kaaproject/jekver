@@ -30,3 +30,4 @@
 {% assign component_mapping = site.data.component_mapping[version] %}
 {% assign sandbox_frame_url = component_mapping["Sandbox frame"] %}
 {% assign sample_apps_url   = component_mapping["Sample Apps"] %}
+{% assign rfc_url           = "https://github.com/kaaproject/kaa-rfcs/blob/master/" %}
