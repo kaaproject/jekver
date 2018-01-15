@@ -13,84 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-FEEDBACK_RESULT_SELECTOR="#feedbackResult";
-FEEDBACK_INPUT_FORM_SELECTOR='#feedbackAsk';
-FEEDBACK_ANIMATION_TIME=500;
-COOKIES_SELECTOR='jekver-feedback';
-ACTIVE_FEEDBACK_TYPE_SELECTOR='#feedbackAsk .btn.btn-primary.active > input';
-FEEDBACK_EMAIL_SELECTOR='#feedbackEmail1';
-FEEDBACK_TEXT_SELECTOR='#feedbackTextarea';
-FEEDBACK_NAME_SELECTOR='#feedbackName'
-FEEDBACK_BTN_SELECTOR='#btnShowfeedbackForm';
-SCROLL_ELEMENT_SELECTOR="div#main"
-FEEDBACK_TIMEOUT_POPUP=10*1000;
-FEEDBACK_FORM_SELECTOR='#feedbackForm'
-FEEDBACK_POST_URL_SELECTOR='#feedbackPostUrl'
 
-function setFeedbackCookie() {
-  Cookies.set(COOKIES_SELECTOR, true,  { path: '/' });
-}
+"use strict";
 
-function feedbackFromLoaded() {
+(function() {
+  var FEEDBACK_FORM_SELECTOR = '.form--feedback';
 
-  /*Setup validator*/
-  $(FEEDBACK_FORM_SELECTOR).validator("update");
-
-  /* Setup submit callback */
   $(FEEDBACK_FORM_SELECTOR).validator().on('submit', function (e) {
-    if (e.isDefaultPrevented()) {
-      // handle the invalid form...
-    } else {
-      /* Check cache and show feedback field if necessary */
-      var TITLE=document.title;
+    if (!e.isDefaultPrevented()) {
+      var TITLE = document.title;
       var VERSION = UTILS.getVersionFromURL();
-      var FEEDBACK_TYPE = $(ACTIVE_FEEDBACK_TYPE_SELECTOR)[0].id;
-      var FEEDBACK_EMAIL = $(FEEDBACK_EMAIL_SELECTOR)[0].value;
-      var FEEDBACK_TEXT = $(FEEDBACK_TEXT_SELECTOR)[0].value;
-      var FEEDBACK_NAME = $(FEEDBACK_NAME_SELECTOR)[0].value;
+      var ACTION_URL = $(FEEDBACK_FORM_SELECTOR).data('url');
+      var formData = {};
+
+      $.each($(FEEDBACK_FORM_SELECTOR).serializeArray(), function(_, field) {
+        formData[field.name] = field.value.trim();
+      });
 
       /* Send feedback to google analytics */
-      Analytic.getInstance().sendFeedback(FEEDBACK_TYPE,VERSION,TITLE, FEEDBACK_NAME, FEEDBACK_EMAIL,FEEDBACK_TEXT);
-      setFeedbackCookie();
-      $(FEEDBACK_INPUT_FORM_SELECTOR).hide(FEEDBACK_ANIMATION_TIME);
-      $(FEEDBACK_RESULT_SELECTOR).show(FEEDBACK_ANIMATION_TIME);
+      Analytic.getInstance().sendFeedback('Without type', VERSION, TITLE, formData['name'], formData['email'], formData['description']);
 
-      /* Post feedback somewhere */
-      var ACTION_URL = $(FEEDBACK_POST_URL_SELECTOR)[0].value;
-      if (!UTILS.isBlank(ACTION_URL)) {
-        $.post(ACTION_URL,
-                {
-                  "email": FEEDBACK_EMAIL,
-                  "name": FEEDBACK_NAME,
-                  "doc_page": TITLE,
-                  "doc_version": VERSION,
-                  "feedback": FEEDBACK_TEXT,
-                  "lead_source_description": 'Documentation'
-                });
-      }
+      $(FEEDBACK_FORM_SELECTOR + ' .btn').prop('disabled', true).addClass('disabled');
+
+      $.post(ACTION_URL,
+        {
+          "email": formData['email'],
+          "name": formData['name'],
+          "feedback": "Title: " + TITLE + "; Version: " + VERSION + "; Description: " + formData['description'] + ";",
+        }
+      ).always(function() {
+        window.location.reload();
+      });
     }
+
     return false;
-  })
-}
-
-$(document).ready(function(){
-
-  /* Enable popovers with html */
-  $("[data-toggle=popover]").popover({html : true});
-
-  /* Setup popover close button functionality */
-  $(document).on("click", ".popover .feedback-close" , function(){
-      $(this).parents(".popover").prev().trigger('click');
   });
-
-  /* Check the cookies . If there is no feedback for this page */
-  if (!Cookies.get(COOKIES_SELECTOR)) {
-
-    /* Setup Timeout feedback */
-    window.setTimeout(function() {
-        $(FEEDBACK_BTN_SELECTOR).trigger('click');
-
-        setFeedbackCookie();
-    }, FEEDBACK_TIMEOUT_POPUP);
-  }
-})
+}());
