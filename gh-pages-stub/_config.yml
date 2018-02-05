@@ -10,8 +10,8 @@ permalink:        pretty
 title:            Kaa
 tagline:          'A Jekyll theme'
 description:      ''
-url:              /kaa
-baseurl:
+url:
+baseurl:          /kaa
 
 author:
   name:
