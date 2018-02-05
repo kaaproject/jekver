@@ -7,11 +7,11 @@ permalink:        pretty
 #relative_permalinks: false
 
 # Setup
-title:            Kaa
+title:
 tagline:          'A Jekyll theme'
 description:      ''
 url:
-baseurl:          /kaa
+baseurl:
 
 author:
   name:
