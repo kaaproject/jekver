@@ -31,3 +31,4 @@
 {% assign sandbox_frame_url = component_mapping["Sandbox frame"] %}
 {% assign sample_apps_url   = component_mapping["Sample Apps"] %}
 {% assign rfc_url           = "https://github.com/kaaproject/kaa-rfcs/blob/master/" %}
+{% assign docs_url          = "https://docs.kaaiot.io/" %}
