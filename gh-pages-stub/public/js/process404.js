@@ -1,4 +1,5 @@
 /*
+ * Copyright 2016-2018 KaaIoT Technologies, LLC.
  * Copyright 2014-2016 CyberVision, Inc.
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
