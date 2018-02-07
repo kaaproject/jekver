@@ -18,8 +18,10 @@
   </ul>
 
   <ul class="nav hidden-xs" id="lg-menu">
-    <li>
-      <a href="{{ site.baseurl }}/" data-toggle="offcanvas" class="hidden-xs text-center logo sidebar-header"><h2>{{site.title}}</h2></a>
+    <li class="dropdown text-center sidebar-header">
+          <br>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ site.baseurl | remove: "/"}}<span class="caret"/></a>
+    {% include services.html %}
     </li>
     <li class="dropdown text-center sidebar-header">
       {% include versions.html nav=site.data.versions %}
