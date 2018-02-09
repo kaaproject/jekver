@@ -1,50 +1,11 @@
 <div class="dropdown-menu" style="width:200px;">
-<ul>&ensp;Communication
-    <li>
-        <a href="{{ docs_url }}KPC">KPC</a>
-    </li>
-    <li>
-        <a href="{{ docs_url }}CM">CM</a>
-    </li>
-    <li>
-        <a href="{{ docs_url }}EPL">EPL</a>
-    </li>
+{% for item in site.data.servicelist.docs %}
+<ul>&ensp;{{ item.group }}
+  {% for entry in item.groupitems %}
+  <li>
+    <a href="{{ entry.url }}">{{ entry.doc }}</a>
+  </li>
+  {% endfor %}
 </ul>
-<ul>&ensp;Data collection
-    <li>
-        <a href="{{ docs_url }}DCX">DCX</a>
-    </li>
-    <li>
-        <a href="{{ docs_url }}EPTS">EPTS</a>
-    </li>
-    <li>
-        <a href="{{ docs_url }}WSTS">WSTS</a>
-    </li>
-</ul>
-<ul>&ensp;Identity management
-    <li>
-        <a href="{{ docs_url }}EPR">EPR</a>
-    </li>
-    <li>
-        <a href="{{ docs_url }}EPMX">EPMX</a>
-    </li>
-</ul>
-<ul>&ensp;Configuration management
-    <li>
-        <a href="{{ docs_url }}CMX">CMX</a>
-    </li>
-    <li>
-        <a href="{{ docs_url }}ECR">ECR</a>
-    </li>
-</ul>
-<ul>&ensp;Front end
-    <li>
-        <a href="{{ docs_url }}WD">WD</a>
-    </li>
-</ul>
-<ul>&ensp;Service infrastructure
-    <li>
-        <a href="{{ docs_url }}SCR">SCR</a>
-    </li>
-</ul>
+{% endfor %}
 </div>

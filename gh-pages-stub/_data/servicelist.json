@@ -1,0 +1,82 @@
+{
+    "docs": [
+        {
+            "group": "Communication",
+            "groupitems": [
+                {
+                    "doc": "KPC",
+                    "url": "https://docs.kaaiot.io/KPC"
+                },
+                {
+                    "doc": "CM",
+                    "url": "https://docs.kaaiot.io/CM"
+                },
+                {
+                    "doc": "EPL",
+                    "url": "https://docs.kaaiot.io/EPL"
+                }
+            ]
+        },
+        {
+            "group": "Data collection",
+            "groupitems": [
+                {
+                    "doc": "DCX",
+                    "url": "https://docs.kaaiot.io/DCX"
+                },
+                {
+                    "doc": "EPTS",
+                    "url": "https://docs.kaaiot.io/EPTS"
+                },
+                {
+                    "doc": "WSTS",
+                    "url": "https://docs.kaaiot.io/WSTS"
+                }
+            ]
+        },
+        {
+            "group": "Identity management",
+            "groupitems": [
+                {
+                    "doc": "EPR",
+                    "url": "https://docs.kaaiot.io/EPR"
+                },
+                {
+                    "doc": "EPMX",
+                    "url": "https://docs.kaaiot.io/EPMX"
+                }
+            ]
+        },
+        {
+            "group": "Configuration management",
+            "groupitems": [
+                {
+                    "doc": "CMX",
+                    "url": "https://docs.kaaiot.io/CMX"
+                },
+                {
+                    "doc": "ECR",
+                    "url": "https://docs.kaaiot.io/ECR"
+                }
+            ]
+        },
+        {
+            "group": "Front end",
+            "groupitems": [
+                {
+                    "doc": "WD",
+                    "url": "https://docs.kaaiot.io/WD"
+                }
+            ]
+        },
+        {
+            "group": "Service infrastructure",
+            "groupitems": [
+                {
+                    "doc": "SCR",
+                    "url": "https://docs.kaaiot.io/SCR"
+                }
+            ]
+        }
+    ]
+}
