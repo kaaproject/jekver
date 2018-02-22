@@ -4,9 +4,9 @@ github_url_latest: https://github.com/kaaproject/kaa/tree/master/
 github_url: https://github.com/kaaproject/kaa/
 github_url_raw: https://raw.githubusercontent.com/kaaproject/kaa/
 github_url_raw_latest: https://raw.githubusercontent.com/kaaproject/kaa/master/
-copyright_date: "Copyright © 2014-"
-copyright_company: "CyberVision, Inc."
-copyright_url: http://www.cybervisiontech.com/
+copyright_date: "Copyright © 2016-"
+copyright_company: "KaaIoT Technologies, LLC."
+copyright_url: https://www.kaaiot.io/
 sidebar_img_path: /public/kaa-avatar.png
 google_analytics_property_id: UA-47512871-7
 include_feedback: true
