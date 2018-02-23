@@ -126,6 +126,7 @@ $('[data-toggle=offcanvas]').click(function() {
 });
 });
 
+/*
 var COLLAPSING_CODE_BLOCS = (function () {
 
   var CODE_BLOCK_SELECTOR       = 'code';
@@ -184,6 +185,7 @@ var COLLAPSING_CODE_BLOCS = (function () {
     getInstance : getInstance
   };
 }());
+*/
 
 $(document).ready(function(){
   $('.collapser > :first-child').click(function() {
