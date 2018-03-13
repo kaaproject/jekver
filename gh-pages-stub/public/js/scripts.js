@@ -10,8 +10,8 @@ var VERSION_ID_TEMPLATE = "li-version-";
 var MORE_TEXT = "Show more"; // More button text
 var LESS_TEXT = "Show less"; // LESS button text
 
-var MIN_NUMBER_OF_LINES_TO_HIDE = 5;
-var NUMBER_OF_LINES_TO_SHOW = 6;
+var MIN_NUMBER_OF_LINES_TO_HIDE = 10;
+var NUMBER_OF_LINES_TO_SHOW = 10;
 
 var DOM = (function () {
   var PAGE_TITLE='page-title';
