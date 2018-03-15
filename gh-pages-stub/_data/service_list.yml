@@ -17,7 +17,7 @@ docs:
   groupitems:
   - doc: CMX
   - doc: ECR
-- group: Over-the-air updates
+- group: Software updates
   groupitems:
   - doc: OTAO
 - group: Command invocation
