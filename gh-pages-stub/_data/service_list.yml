@@ -21,6 +21,7 @@ docs:
   groupitems:
   - doc: OTAO
 - group: Command invocation
+  groupitems:
   - doc: CEX
 - group: Front end
   groupitems:
