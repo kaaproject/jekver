@@ -68,3 +68,22 @@ See example below.
 
 7. From the `test-MyProject-pages-current` directory, run `jekyll serve`.
 This will generate the documentation and serve it at `http://localhost:4000/<baseurl>/`.
+
+### Regenerate documentation after editing
+
+You can use Jekver to locally view the changes you have made to your project documentation.
+To do this, you need to regenerate your project documentation after you have made the changes:
+
+ 1. Stop Jekver from running (press Ctrl+C in the same terminal where you previously run `jekyll serve`).
+
+ 2. Delete the `test-...-pages` and  `tmp` directories from your project folder.
+
+ 3. From Jekver repository, run:
+    ```
+    ./jekver.rb --c <root path of your project repository>
+    ```
+
+ 4. From your project directory, run
+    ```
+    jekyll serve
+    ```
