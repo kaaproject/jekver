@@ -76,14 +76,16 @@ To do this, you need to regenerate your project documentation after you have mad
 
  1. Stop Jekver from running (press Ctrl+C in the same terminal where you previously run `jekyll serve`).
 
- 2. Delete the `test-...-pages` and  `tmp` directories from your project folder.
+ 2. Delete the `test-...-pages` and  `tmp` directories from your project directory.
 
  3. From Jekver repository, run:
     ```
     ./jekver.rb --c <root path of your project repository>
     ```
 
- 4. From your project directory, run
+ 4. Go to the `test-...-pages` directory in the root of your project and serve the documentation regenerated in the previous step:
     ```
+    cd ..
+    cd ./test-gh-pages-current/
     jekyll serve
     ```
