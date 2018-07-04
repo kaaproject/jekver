@@ -27,11 +27,21 @@ CLI overwrite configuraton loaded from config file so if option defined in confi
 
 ## Basic usage
 
-1. Clone [Jekver repository](https://github.com/kaaproject/jekver) to the directory that contains your project repository with documentation.
+1. Install Bundler to manage Ruby gems required for Jekver:
+   ```
+   gem install bundler
+   ```
 
-2. In the cloned Jekver repository, open the `gh-pages-stub/_config.yml` file, specify `title` and `baseurl` parameter values for your project.
+2. Clone [Jekver repository](https://github.com/kaaproject/jekver) to the directory that contains your project repository with documentation.
 
-3. Create a Jekver configuration file `jekver.yml` in the root of your project repository with documentation.
+3. Install required Jekyll dependencies by running this command from the Jekver repository that you cloned in the previous step:
+   ```
+   bundle install --gemfile ./Gemfile
+   ```
+
+4. In the cloned Jekver repository, open the `gh-pages-stub/_config.yml` file, specify `title` and `baseurl` parameter values for your project.
+
+5. Create a Jekver configuration file `jekver.yml` in the root of your project repository with documentation.
 For the `docs` parameter, specify the name of the directory that contains your documentation.
 If that directory is not in the project root, specify the full path from project root.
 See example below.
@@ -48,7 +58,7 @@ See example below.
           docs: doc
    ```
 
-4. From the root of your cloned Jekver repository, run:
+6. From the root of your cloned Jekver repository, run:
 
    ```
    ./jekver.rb -c <root path of your project repository>
@@ -56,5 +66,26 @@ See example below.
 
    This will generate documentation structure and create two sub-directories in the root of your project repository: `test-MyProject-pages-current` and `tmp`.
 
-5. From the `test-MyProject-pages-current` directory, run `jekyll serve`.
+7. From the `test-MyProject-pages-current` directory, run `jekyll serve`.
 This will generate the documentation and serve it at `http://localhost:4000/<baseurl>/`.
+
+### Regenerate documentation after editing
+
+You can use Jekver to locally view the changes you have made to your project documentation.
+To do this, you need to regenerate your project documentation after you have made the changes:
+
+ 1. Stop Jekver from running (press Ctrl+C in the same terminal where you previously run `jekyll serve`).
+
+ 2. Delete the `test-...-pages` and  `tmp` directories from your project directory.
+
+ 3. From Jekver repository, run:
+    ```
+    ./jekver.rb --c <root path of your project repository>
+    ```
+
+ 4. Go to the `test-...-pages` directory in the root of your project and serve the documentation regenerated in the previous step:
+    ```
+    cd ..
+    cd ./test-gh-pages-current/
+    jekyll serve
+    ```
