@@ -15,6 +15,7 @@ begin
     opts.on('-l', '--latest TAG','Set tag to generate redirection pages from "latest" links') { |v| options["latest"] = v }
     opts.on('-c', '--add-current', 'Add current branch to gh-pages') { |v| options["addCurrent"] = v }
     opts.on('-d', '--deploy', 'deploy documentation into gh-pages') { |v| options["deploy"] = v }
+    opts.on('-v2', '--version2', 'Select new version of gh-pages-stub') { |v| options["newVersion"] = v }
   end.parse!
   puts options
   if ARGV.empty?() or !File.directory?(ARGV[0]) or !File.directory?("#{ARGV[0]}/.git")

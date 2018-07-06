@@ -7,6 +7,11 @@ require "#{File.dirname(__FILE__)}/create_global_toc.rb"
 class Deploy
   def initialize(conf)
     fillDefaults(conf)
+    if @conf["newVersion"]
+        FileUtils.cp("template/default2.html", "gh-pages-stub/_layouts/default.html")
+    else
+        FileUtils.cp("template/default1.html", "gh-pages-stub/_layouts/default.html")
+    end
     generate_jekyll_data()
     @conf["tags"].each do |tag|
       puts "Processing tag #{tag}"
