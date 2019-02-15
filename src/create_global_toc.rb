@@ -123,7 +123,7 @@ class GlobalMenu
     Dir.glob("#{key}/**/index.md") do |md_file|
       dirname = File.dirname(md_file)
       header = YAML.load(loadHeader(md_file))
-      if header.has_key?('permalink')
+      if header.has_key?('permalink') && !header.has_key?('excludeFromNav')
         url = md_file.gsub("/index.md","")
         url = url.gsub("#{key}","")
         #url = url.gsub("//","/")
