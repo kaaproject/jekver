@@ -5,7 +5,7 @@
   {% assign new_url = page.url | replace_first: version, latest_version %}
   {% if urls contains new_url %}
 
-  > WARNING: New version is avaliable [here]({{ site.baseurl }}{{new_url}}).
+  > WARNING: New version is available [here]({{ site.baseurl }}{{new_url}}).
 
   {% else %}
 
