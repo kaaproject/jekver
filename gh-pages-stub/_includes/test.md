@@ -5,11 +5,11 @@
   {% assign new_url = page.url | replace_first: version, latest_version %}
   {% if urls contains new_url %}
 
-  > WARNING: New version is available [here]({{ site.baseurl }}{{new_url}}).
+  > You are looking at the outdated documentation version. New version is available [here]({{ site.baseurl }}{{new_url}}).
 
   {% else %}
 
-  > WARNING: This documentation is outdated. Try to look for new version [here]({{home_url}}).
+  > You are looking at the outdated documentation version. New version is available [here]({{home_url}}).
 
   {% endif %}
 {% endif %}
